@@ -5,6 +5,7 @@ from models import Base, User, Country
 from fetch_users import fetch_and_store_users
 from fetch_countries import fetch_and_store_countries
 from logger import logger
+from fastapi import FastAPI
 
 Base.metadata.create_all(bind=engine)
 
@@ -28,3 +29,7 @@ def get_users(db: Session = Depends(get_db)):
 @app.get("/countries")
 def get_countries(db: Session = Depends(get_db)):
     return db.query(Country).all()
+
+@app.get("/health")
+def health_check():
+    return {"status": "ok"} 
